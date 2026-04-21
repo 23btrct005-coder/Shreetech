@@ -5,32 +5,32 @@ import { useNavigate, Link } from 'react-router-dom';
 const industries = [
   {
     name: 'Printing Industry',
-    imageUrl: 'https://images.unsplash.com/photo-1595113316349-9fa4ee24f884?auto=format&fit=crop&q=80&w=800',
+    imageUrl: '/printing_industry_roller_1776798770380.png',
     roles: ['Ink Fountain', 'Ink Oscillator', 'Vibrator', 'Ink Rider', 'Ink Transfer', 'Alcohol Damper']
   },
   {
     name: 'Paper Mill',
-    imageUrl: 'https://images.unsplash.com/photo-1589793907316-f94025b46850?auto=format&fit=crop&q=80&w=800',
+    imageUrl: '/paper_mill_roller_1776798870216.png',
     roles: ['Back Up', 'Breast Roller', 'Couch Roller', 'M.G. Tuch', 'Drive Roller', 'Guide Roller']
   },
   {
     name: 'Steel & Coil Coating',
-    imageUrl: 'https://images.unsplash.com/photo-1517146431317-061803623700?auto=format&fit=crop&q=80&w=800',
+    imageUrl: '/steel_coil_coating_roller_1776798786417.png',
     roles: ['Accumulator', 'Bridle', 'Chemical Coater', 'Deflector', 'Leveler', 'Oiler', 'Wringer']
   },
   {
     name: 'Textile Industry',
-    imageUrl: 'https://images.unsplash.com/photo-1558444479-c84851727ec1?auto=format&fit=crop&q=80&w=800',
+    imageUrl: '/textile_industry_roller_1776798799659.png',
     roles: ['Dip Tank Coater', 'Expander', 'Padder Roller', 'Press Roller', 'Slasher Nip', 'Warper Nip']
   },
   {
     name: 'Vinyl & Plywood',
-    imageUrl: 'https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=800',
+    imageUrl: '/vinyl_plywood_roller_1776798816036.png',
     roles: ['Embossing', 'Coating', 'Glue Spreader', 'Doctor Rollers', 'Sanding', 'Dipping']
   },
   {
     name: 'Tannery & Glass',
-    imageUrl: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800',
+    imageUrl: '/tannery_glass_roller_1776798887114.png',
     roles: ['Buffing', 'Splitting', 'Washing Machine', 'Feed Roller', 'Idler', 'Nip Rollers']
   }
 ];
@@ -57,10 +57,10 @@ const IndustryShowcase = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="p-8 rounded-3xl border border-slate-100 bg-slate-50 hover:bg-white hover:shadow-2xl hover:shadow-primary/5 transition-all group overflow-hidden"
+              className="p-8 rounded-3xl border border-slate-100 bg-slate-50 hover:bg-white hover:shadow-2xl hover:shadow-primary/5 transition-all group overflow-hidden flex flex-col"
             >
               <div 
-                className="mb-8 rounded-2xl overflow-hidden shadow-lg h-48 cursor-pointer relative"
+                className="mb-8 rounded-2xl overflow-hidden shadow-lg h-48 cursor-pointer relative shrink-0"
                 onClick={() => navigate(`/catalog?search=${industry.name}`)}
               >
                 <img 
@@ -68,23 +68,26 @@ const IndustryShowcase = () => {
                   alt={industry.name} 
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
                 />
-                <div className="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors"></div>
+                <div className="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors"></div>
               </div>
               
               <h3 className="text-2xl font-extrabold text-primary mb-6">{industry.name}</h3>
               
-              <ul className="grid grid-cols-1 gap-3">
-                {industry.roles.map(role => (
-                  <li key={role} className="text-sm">
-                    <Link 
-                      to={`/catalog?search=${role}`}
-                      className="flex items-center gap-2 text-slate-500 hover:text-secondary font-bold transition-colors"
-                    >
-                      <span className="w-2 h-2 bg-accent rounded-full"></span>
-                      {role} Roller
-                    </Link>
-                  </li>
-                ))}
+              <ul className="grid grid-cols-1 gap-3 flex-grow">
+                {industry.roles.map(role => {
+                  const displayName = role.toLowerCase().includes('roller') ? role : `${role} Roller`;
+                  return (
+                    <li key={role} className="text-sm">
+                      <Link 
+                        to={`/catalog?search=${displayName}`}
+                        className="flex items-center gap-2 text-slate-500 hover:text-secondary font-bold transition-colors"
+                      >
+                        <span className="w-2 h-2 bg-accent rounded-full"></span>
+                        {displayName}
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
               
               <button 
