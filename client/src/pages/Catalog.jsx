@@ -3,13 +3,24 @@ import ProductCard from '../components/ProductCard';
 import { Search, Filter, SlidersHorizontal } from 'lucide-react';
 import { supabase } from '../supabase';
 
+import { useSearchParams } from 'react-router-dom';
+
 const Catalog = () => {
+  const [searchParams] = useSearchParams();
+  const initialSearch = searchParams.get('search') || '';
+  
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(initialSearch);
   const [category, setCategory] = useState('All');
   
-  const categories = ['All', 'Printing', 'Paper Mill', 'Steel Mill', 'Textile', 'Silicone'];
+  const categories = ['All', 'Printing Industry', 'Paper Mill', 'Steel & Coil Coating', 'Textile Industry', 'Vinyl & Plywood', 'Tannery & Glass'];
+
+  useEffect(() => {
+    // If search param changes in URL, update local search state
+    const urlSearch = searchParams.get('search');
+    if (urlSearch) setSearch(urlSearch);
+  }, [searchParams]);
 
   useEffect(() => {
     fetchProducts();
