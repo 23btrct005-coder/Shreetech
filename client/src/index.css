@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans;
+  }
+}
+
+.glass {
+  @apply bg-white/70 backdrop-blur-md border border-white/20;
+}
+
+.btn-primary {
+  @apply bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95;
+}
+
+.btn-outline {
+  @apply border-2 border-primary text-primary hover:bg-primary hover:text-white px-6 py-2 rounded-lg transition-all duration-300;
+}
