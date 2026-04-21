@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from 'lucide-react';
+import { Mail, Phone, MapPin, Globe, Smartphone, ExternalLink } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -15,9 +15,9 @@ const Footer = () => {
             Leading manufacturer of high-quality industrial rubber rollers since 1996. Committed to precision and excellence.
           </p>
           <div className="flex gap-4">
-            <a href="#" className="p-2 bg-slate-800 rounded-full hover:bg-secondary transition-colors"><Facebook size={18} /></a>
-            <a href="#" className="p-2 bg-slate-800 rounded-full hover:bg-secondary transition-colors"><Instagram size={18} /></a>
-            <a href="#" className="p-2 bg-slate-800 rounded-full hover:bg-secondary transition-colors"><Linkedin size={18} /></a>
+            <a href="#" className="p-2 bg-slate-800 rounded-full hover:bg-secondary transition-colors"><Globe size={18} /></a>
+            <a href="#" className="p-2 bg-slate-800 rounded-full hover:bg-secondary transition-colors"><Smartphone size={18} /></a>
+            <a href="#" className="p-2 bg-slate-800 rounded-full hover:bg-secondary transition-colors"><ExternalLink size={18} /></a>
           </div>
         </div>
 
