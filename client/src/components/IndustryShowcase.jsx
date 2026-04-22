@@ -5,35 +5,36 @@ import { useNavigate, Link } from 'react-router-dom';
 const industries = [
   {
     name: 'Printing Industry',
-    imageUrl: '/printing_industry_roller_1776798770380.png',
+    imageUrl: 'https://shreerubbtech.com/img/portfolio/item3.jpg',
     roles: ['Ink Fountain', 'Ink Oscillator', 'Vibrator', 'Ink Rider', 'Ink Transfer', 'Alcohol Damper']
   },
   {
     name: 'Paper Mill',
-    imageUrl: '/paper_mill_roller_1776798870216.png',
+    imageUrl: 'https://shreerubbtech.com/img/portfolio/item2.jpg',
     roles: ['Back Up', 'Breast Roller', 'Couch Roller', 'M.G. Tuch', 'Drive Roller', 'Guide Roller']
   },
   {
     name: 'Steel & Coil Coating',
-    imageUrl: '/steel_coil_coating_roller_1776798786417.png',
+    imageUrl: 'https://shreerubbtech.com/img/portfolio/item4.jpg',
     roles: ['Accumulator', 'Bridle', 'Chemical Coater', 'Deflector', 'Leveler', 'Oiler', 'Wringer']
   },
   {
     name: 'Textile Industry',
-    imageUrl: '/textile_industry_roller_1776798799659.png',
+    imageUrl: 'https://shreerubbtech.com/img/portfolio/item5.jpg',
     roles: ['Dip Tank Coater', 'Expander', 'Padder Roller', 'Press Roller', 'Slasher Nip', 'Warper Nip']
   },
   {
     name: 'Vinyl & Plywood',
-    imageUrl: '/vinyl_plywood_roller_1776798816036.png',
+    imageUrl: 'https://shreerubbtech.com/img/portfolio/item.jpg',
     roles: ['Embossing', 'Coating', 'Glue Spreader', 'Doctor Rollers', 'Sanding', 'Dipping']
   },
   {
     name: 'Tannery & Glass',
-    imageUrl: '/tannery_glass_roller_1776798887114.png',
+    imageUrl: 'https://shreerubbtech.com/img/portfolio/item7.jpg',
     roles: ['Buffing', 'Splitting', 'Washing Machine', 'Feed Roller', 'Idler', 'Nip Rollers']
   }
 ];
+
 
 const IndustryShowcase = () => {
   const navigate = useNavigate();

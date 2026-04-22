@@ -9,12 +9,13 @@ const Hero = () => {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="/shree_tech_hero.png" 
+          src="https://shreerubbtech.com/img/slider/banner.jpg" 
           alt="Industrial Rubber Rollers" 
           className="w-full h-full object-cover opacity-30"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/80 to-transparent"></div>
       </div>
+
 
       <div className="container mx-auto px-6 md:px-12 relative z-10">
         <div className="max-w-3xl">

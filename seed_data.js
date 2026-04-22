@@ -34,6 +34,15 @@ const industries = [
   }
 ];
 
+const industryImages = {
+  'Printing Industry': 'https://shreerubbtech.com/img/portfolio/item3.jpg',
+  'Paper Mill': 'https://shreerubbtech.com/img/portfolio/item2.jpg',
+  'Steel & Coil Coating': 'https://shreerubbtech.com/img/portfolio/item4.jpg',
+  'Textile Industry': 'https://shreerubbtech.com/img/portfolio/item5.jpg',
+  'Vinyl & Plywood': 'https://shreerubbtech.com/img/portfolio/item.jpg',
+  'Tannery & Glass': 'https://shreerubbtech.com/img/portfolio/item7.jpg'
+};
+
 const productData = [];
 
 industries.forEach(industry => {
@@ -46,11 +55,12 @@ industries.forEach(industry => {
       description: `High-performance ${fullName} specifically engineered for the ${industry.name}. Designed for maximum durability, precision alignment, and resistance to industrial chemicals.`,
       price: Math.floor(Math.random() * (60000 - 15000) + 15000),
       category: industry.name,
-      image_url: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800', // Default fallback
+      image_url: industryImages[industry.name] || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800',
       availability: true
     });
   });
 });
+
 
 async function seed() {
   console.log('Cleaning existing products...');
