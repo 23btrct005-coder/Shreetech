@@ -15,7 +15,6 @@ import {
   Thermometer,
   ExternalLink
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -104,7 +103,7 @@ const ProductDetail = () => {
           
           {/* Left: Interactive Image Gallery */}
           <div className="space-y-6">
-            <motion.div 
+            <div 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               className="rounded-[3rem] overflow-hidden shadow-2xl border border-slate-50 bg-slate-50 aspect-square group relative"
@@ -121,7 +120,7 @@ const ProductDetail = () => {
                   OUT OF STOCK
                 </div>
               )}
-            </motion.div>
+            </div>
             
             {/* Features Icons */}
             <div className="grid grid-cols-3 gap-4">
@@ -139,7 +138,7 @@ const ProductDetail = () => {
           </div>
 
           {/* Right: Product Details & Purchase */}
-          <motion.div
+          <div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="flex flex-col"
@@ -174,7 +173,7 @@ const ProductDetail = () => {
                     className={`pb-4 text-sm font-black uppercase tracking-widest transition-all relative ${activeTab === tab ? 'text-primary' : 'text-slate-300'}`}
                   >
                     {tab}
-                    {activeTab === tab && <motion.div layoutId="tab" className="absolute bottom-0 left-0 right-0 h-1 bg-secondary rounded-full" />}
+                    {activeTab === tab && <div  className="absolute bottom-0 left-0 right-0 h-1 bg-secondary rounded-full" />}
                   </button>
                 ))}
               </div>
@@ -182,7 +181,7 @@ const ProductDetail = () => {
               <div className="min-h-[120px]">
                 <AnimatePresence mode="wait">
                   {activeTab === 'overview' ? (
-                    <motion.div 
+                    <div 
                       key="overview"
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -200,9 +199,9 @@ const ProductDetail = () => {
                           </span>
                         ))}
                       </div>
-                    </motion.div>
+                    </div>
                   ) : (
-                    <motion.div 
+                    <div 
                       key="specs"
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -222,7 +221,7 @@ const ProductDetail = () => {
                           <p className="font-bold text-primary text-sm">{spec.value}</p>
                         </div>
                       ))}
-                    </motion.div>
+                    </div>
                   )}
                 </AnimatePresence>
               </div>
@@ -265,7 +264,7 @@ const ProductDetail = () => {
                 ISO 9001 Certified
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Related Products Section */}
@@ -283,7 +282,7 @@ const ProductDetail = () => {
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {relatedProducts.map((rel, idx) => (
-                <motion.div
+                <div
                   key={rel.id}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -299,7 +298,7 @@ const ProductDetail = () => {
                     <h4 className="font-bold text-primary group-hover:text-secondary transition-colors mb-1">{rel.name}</h4>
                     <p className="text-secondary font-black text-sm">₹{parseFloat(rel.price).toLocaleString()}</p>
                   </Link>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>

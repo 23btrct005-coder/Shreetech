@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../supabase';
 import { LayoutDashboard, Package, Users, ShoppingBag, TrendingUp, Plus, Edit2, Trash2, Check, X, Loader2 } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 const AdminDashboard = () => {
   const { profile } = useAuth();
@@ -332,7 +331,7 @@ const AdminDashboard = () => {
       {/* Product Modal */}
       {showProductModal && (
         <div className="fixed inset-0 bg-primary/40 backdrop-blur-sm z-50 flex items-center justify-center p-6">
-          <motion.div 
+          <div 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             className="bg-white rounded-[2.5rem] w-full max-w-2xl shadow-2xl border border-slate-100 overflow-hidden"
@@ -450,7 +449,7 @@ const AdminDashboard = () => {
                 </button>
               </div>
             </form>
-          </motion.div>
+          </div>
         </div>
       )}
     </div>

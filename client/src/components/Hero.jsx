@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -19,7 +18,7 @@ const Hero = () => {
 
       <div className="container mx-auto px-6 md:px-12 relative z-10">
         <div className="max-w-3xl">
-          <motion.div
+          <div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -62,12 +61,12 @@ const Hero = () => {
                 <span>In-house Fabrication Excellence</span>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
 
       {/* Animated Elements */}
-      <motion.div 
+      <div 
         animate={{ 
           y: [0, -20, 0],
           rotate: [0, 5, 0]

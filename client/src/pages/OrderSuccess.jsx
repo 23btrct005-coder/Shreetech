@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { CheckCircle, Package, ArrowRight, Home, ShoppingBag } from 'lucide-react';
 import { supabase } from '../supabase';
 
@@ -33,7 +32,7 @@ const OrderSuccess = () => {
   return (
     <div className="py-20 px-6 md:px-12 bg-slate-50 min-h-screen flex items-center justify-center">
       <div className="max-w-3xl w-full">
-        <motion.div 
+        <div 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           className="bg-white p-12 md:p-16 rounded-[3rem] shadow-2xl border border-slate-100 text-center relative overflow-hidden"
@@ -43,14 +42,14 @@ const OrderSuccess = () => {
           <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
 
           <div className="relative z-10">
-            <motion.div 
+            <div 
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: "spring", stiffness: 200, damping: 20 }}
               className="w-24 h-24 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-10 shadow-xl shadow-green-500/20"
             >
               <CheckCircle size={48} />
-            </motion.div>
+            </div>
 
             <h1 className="text-4xl md:text-5xl font-extrabold text-primary mb-6">Order Placed!</h1>
             <p className="text-xl text-slate-500 mb-12 max-w-lg mx-auto leading-relaxed">
@@ -105,7 +104,7 @@ const OrderSuccess = () => {
               <Home size={16} /> Need help? Call +91 94265 68840
             </p>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

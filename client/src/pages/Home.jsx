@@ -1,7 +1,6 @@
 import React from 'react';
 import Hero from '../components/Hero';
 import IndustryShowcase from '../components/IndustryShowcase';
-import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Award, Clock, ShieldCheck, Globe } from 'lucide-react';
 
 const testimonials = [
