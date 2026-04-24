@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../supabase';
 import { LayoutDashboard, Package, Users, ShoppingBag, TrendingUp, Plus, Edit2, Trash2, Check, X, Loader2 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const AdminDashboard = () => {
   const { profile } = useAuth();
@@ -10,6 +11,17 @@ const AdminDashboard = () => {
   const [orders, setOrders] = useState([]);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showProductModal, setShowProductModal] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [productForm, setProductForm] = useState({
+    name: '',
+    category: '',
+    price: '',
+    description: '',
+    image_url: '',
+    availability: true
+  });
+  const [expandedOrder, setExpandedOrder] = useState(null);
 
   useEffect(() => {
     if (profile?.role === 'admin') {
@@ -22,7 +34,7 @@ const AdminDashboard = () => {
     try {
       const [prodRes, orderRes, userRes] = await Promise.all([
         supabase.from('products').select('*').order('created_at', { ascending: false }),
-        supabase.from('orders').select('*, profiles(full_name, email)').order('created_at', { ascending: false }),
+        supabase.from('orders').select('*, profiles(full_name, email), order_items(*, products(*))').order('created_at', { ascending: false }),
         supabase.from('profiles').select('*').order('created_at', { ascending: false })
       ]);
 
@@ -44,6 +56,47 @@ const AdminDashboard = () => {
     } catch (err) {
       alert('Failed to update status');
     }
+  };
+
+  const handleProductSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const { id, created_at, ...updateData } = productForm;
+      
+      if (editingProduct) {
+        const { error } = await supabase.from('products').update(updateData).eq('id', editingProduct.id);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase.from('products').insert([updateData]);
+        if (error) throw error;
+      }
+      setShowProductModal(false);
+      setEditingProduct(null);
+      setProductForm({ name: '', category: '', price: '', description: '', image_url: '', availability: true });
+      fetchData();
+    } catch (err) {
+      alert(`Error: ${err.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteProduct = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this product?')) return;
+    try {
+      const { error } = await supabase.from('products').delete().eq('id', id);
+      if (error) throw error;
+      fetchData();
+    } catch (err) {
+      alert('Failed to delete product');
+    }
+  };
+
+  const openEditModal = (product) => {
+    setEditingProduct(product);
+    setProductForm({ ...product });
+    setShowProductModal(true);
   };
 
   const stats = [
@@ -122,7 +175,12 @@ const AdminDashboard = () => {
               <div className="animate-fade-in">
                 <div className="flex justify-between items-center mb-10">
                   <h1 className="text-3xl font-extrabold text-primary">Manage Products</h1>
-                  <button className="btn-primary py-3 flex items-center gap-2"><Plus size={20} /> Add Product</button>
+                  <button 
+                    onClick={() => { setEditingProduct(null); setProductForm({ name: '', category: '', price: '', description: '', image_url: '', availability: true }); setShowProductModal(true); }}
+                    className="btn-primary py-3 flex items-center gap-2"
+                  >
+                    <Plus size={20} /> Add Product
+                  </button>
                 </div>
                 <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
                   <table className="w-full text-left">
@@ -153,8 +211,8 @@ const AdminDashboard = () => {
                           </td>
                           <td className="px-8 py-6">
                             <div className="flex gap-2">
-                              <button className="p-2 hover:bg-blue-50 text-blue-500 rounded-lg"><Edit2 size={18} /></button>
-                              <button className="p-2 hover:bg-red-50 text-red-500 rounded-lg"><Trash2 size={18} /></button>
+                              <button onClick={() => openEditModal(p)} className="p-2 hover:bg-blue-50 text-blue-500 rounded-lg"><Edit2 size={18} /></button>
+                              <button onClick={() => deleteProduct(p.id)} className="p-2 hover:bg-red-50 text-red-500 rounded-lg"><Trash2 size={18} /></button>
                             </div>
                           </td>
                         </tr>
@@ -181,27 +239,58 @@ const AdminDashboard = () => {
                     </thead>
                     <tbody className="text-slate-600 divide-y divide-slate-50">
                       {orders.map(o => (
-                        <tr key={o.id} className="hover:bg-slate-50/50 transition-colors">
-                          <td className="px-8 py-6 font-mono text-xs">{o.id.slice(0, 8)}</td>
-                          <td className="px-8 py-6 font-bold text-primary">{o.profiles?.full_name}</td>
-                          <td className="px-8 py-6 font-bold text-secondary">₹{parseFloat(o.total_amount).toLocaleString()}</td>
-                          <td className="px-8 py-6">
-                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase ${o.status === 'delivered' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
-                              {o.status}
-                            </span>
-                          </td>
-                          <td className="px-8 py-6">
-                            <select 
-                              className="text-xs font-bold bg-slate-50 border-none outline-none p-2 rounded-lg cursor-pointer"
-                              value={o.status}
-                              onChange={(e) => updateStatus(o.id, e.target.value)}
-                            >
-                              <option value="pending">Pending</option>
-                              <option value="shipped">Shipped</option>
-                              <option value="delivered">Delivered</option>
-                            </select>
-                          </td>
-                        </tr>
+                        <React.Fragment key={o.id}>
+                          <tr className="hover:bg-slate-50/50 transition-colors">
+                            <td className="px-8 py-6 font-mono text-xs cursor-pointer text-secondary hover:underline" onClick={() => setExpandedOrder(expandedOrder === o.id ? null : o.id)}>
+                              {o.id.slice(0, 8)}
+                            </td>
+                            <td className="px-8 py-6 font-bold text-primary">{o.profiles?.full_name}</td>
+                            <td className="px-8 py-6 font-bold text-secondary">₹{parseFloat(o.total_amount).toLocaleString()}</td>
+                            <td className="px-8 py-6 uppercase tracking-widest text-[10px]">
+                              <span className={`px-3 py-1 rounded-full font-bold ${o.status === 'delivered' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
+                                {o.status}
+                              </span>
+                            </td>
+                            <td className="px-8 py-6">
+                              <select 
+                                className="text-xs font-bold bg-slate-50 border-none outline-none p-2 rounded-lg cursor-pointer"
+                                value={o.status}
+                                onChange={(e) => updateStatus(o.id, e.target.value)}
+                              >
+                                <option value="pending">Pending</option>
+                                <option value="shipped">Shipped</option>
+                                <option value="delivered">Delivered</option>
+                              </select>
+                            </td>
+                          </tr>
+                          {expandedOrder === o.id && (
+                            <tr className="bg-slate-50/30">
+                              <td colSpan="5" className="px-12 py-8">
+                                <div className="space-y-4">
+                                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-widest">Order Items</h4>
+                                  {o.order_items?.map((item, idx) => (
+                                    <div key={idx} className="flex justify-between items-center text-sm border-b border-white pb-3">
+                                      <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded bg-white flex items-center justify-center p-1 border border-slate-100">
+                                          <img src={item.products?.image_url} className="w-full h-full object-contain" />
+                                        </div>
+                                        <span className="font-bold text-primary">{item.products?.name}</span>
+                                      </div>
+                                      <div className="flex gap-8">
+                                        <span className="text-slate-400">Qty: {item.quantity}</span>
+                                        <span className="font-bold">₹{item.price.toLocaleString()}</span>
+                                      </div>
+                                    </div>
+                                  ))}
+                                  <div className="pt-4 text-xs text-slate-400">
+                                    <p className="font-bold mb-1 uppercase tracking-widest">Address</p>
+                                    <p>{o.address}</p>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          )}
+                        </React.Fragment>
                       ))}
                     </tbody>
                   </table>
@@ -239,6 +328,131 @@ const AdminDashboard = () => {
           </div>
         )}
       </div>
+
+      {/* Product Modal */}
+      {showProductModal && (
+        <div className="fixed inset-0 bg-primary/40 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-[2.5rem] w-full max-w-2xl shadow-2xl border border-slate-100 overflow-hidden"
+          >
+            <div className="bg-slate-50 p-8 border-b border-slate-100 flex justify-between items-center">
+              <h2 className="text-2xl font-black text-primary">{editingProduct ? 'Edit Product' : 'Add New Product'}</h2>
+              <button 
+                onClick={() => setShowProductModal(false)}
+                className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-slate-400 hover:text-red-500 transition-colors shadow-sm"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            
+            <form onSubmit={handleProductSubmit} className="p-10 space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Product Name</label>
+                  <input 
+                    required
+                    className="w-full px-6 py-4 bg-slate-50 rounded-2xl border border-slate-100 focus:border-secondary outline-none transition-all"
+                    value={productForm.name}
+                    onChange={(e) => setProductForm({ ...productForm, name: e.target.value })}
+                    placeholder="e.g. Industrial Oil Seal"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Category</label>
+                  <select 
+                    required
+                    className="w-full px-6 py-4 bg-slate-50 rounded-2xl border border-slate-100 focus:border-secondary outline-none transition-all cursor-pointer"
+                    value={productForm.category}
+                    onChange={(e) => setProductForm({ ...productForm, category: e.target.value })}
+                  >
+                    <option value="">Select Industry</option>
+                    <option value="Printing Industry">Printing Industry</option>
+                    <option value="Automobile Industry">Automobile Industry</option>
+                    <option value="Infrastructure & Construction">Infrastructure & Construction</option>
+                    <option value="Textile Industry">Textile Industry</option>
+                    <option value="Paper Mill">Paper Mill</option>
+                    <option value="General Engineering">General Engineering</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Price (₹)</label>
+                  <input 
+                    required
+                    type="number"
+                    className="w-full px-6 py-4 bg-slate-50 rounded-2xl border border-slate-100 focus:border-secondary outline-none transition-all"
+                    value={productForm.price}
+                    onChange={(e) => setProductForm({ ...productForm, price: e.target.value })}
+                    placeholder="25000"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Availability</label>
+                  <div className="flex gap-4 p-2 bg-slate-50 rounded-2xl">
+                    <button 
+                      type="button"
+                      onClick={() => setProductForm({ ...productForm, availability: true })}
+                      className={`flex-grow py-3 rounded-xl font-bold transition-all ${productForm.availability ? 'bg-green-500 text-white shadow-lg' : 'text-slate-400'}`}
+                    >
+                      In Stock
+                    </button>
+                    <button 
+                      type="button"
+                      onClick={() => setProductForm({ ...productForm, availability: false })}
+                      className={`flex-grow py-3 rounded-xl font-bold transition-all ${!productForm.availability ? 'bg-red-500 text-white shadow-lg' : 'text-slate-400'}`}
+                    >
+                      Out of Stock
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Description</label>
+                <textarea 
+                  required
+                  rows="3"
+                  className="w-full px-6 py-4 bg-slate-50 rounded-2xl border border-slate-100 focus:border-secondary outline-none transition-all"
+                  value={productForm.description}
+                  onChange={(e) => setProductForm({ ...productForm, description: e.target.value })}
+                  placeholder="Technical specifications and material details..."
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Image URL</label>
+                <input 
+                  className="w-full px-6 py-4 bg-slate-50 rounded-2xl border border-slate-100 focus:border-secondary outline-none transition-all"
+                  value={productForm.image_url}
+                  onChange={(e) => setProductForm({ ...productForm, image_url: e.target.value })}
+                  placeholder="https://example.com/item.jpg"
+                />
+              </div>
+
+              <div className="flex gap-4 pt-6">
+                <button 
+                  type="button"
+                  onClick={() => setShowProductModal(false)}
+                  className="flex-grow py-5 bg-slate-100 text-slate-500 font-bold rounded-2xl hover:bg-slate-200 transition-all"
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit"
+                  disabled={loading}
+                  className="flex-grow py-5 bg-primary text-white font-black rounded-2xl hover:scale-[1.02] transition-all shadow-xl shadow-primary/20"
+                >
+                  {loading ? <Loader2 className="animate-spin mx-auto" /> : (editingProduct ? 'Save Changes' : 'Create Product')}
+                </button>
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 };

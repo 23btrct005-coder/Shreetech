@@ -8,18 +8,30 @@ import { useSearchParams } from 'react-router-dom';
 const Catalog = () => {
   const [searchParams] = useSearchParams();
   const initialSearch = searchParams.get('search') || '';
+  const initialCategory = searchParams.get('category') || 'All';
   
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState(initialSearch);
-  const [category, setCategory] = useState('All');
+  const [category, setCategory] = useState(initialCategory);
   
-  const categories = ['All', 'Printing Industry', 'Paper Mill', 'Steel & Coil Coating', 'Textile Industry', 'Vinyl & Plywood', 'Tannery & Glass'];
+  const categories = [
+    'All', 
+    'Printing Industry', 
+    'Automobile Industry', 
+    'Infrastructure & Construction', 
+    'Textile Industry', 
+    'Paper Mill', 
+    'General Engineering'
+  ];
 
   useEffect(() => {
-    // If search param changes in URL, update local search state
+    // If URL params change, update local state
     const urlSearch = searchParams.get('search');
-    if (urlSearch) setSearch(urlSearch);
+    const urlCategory = searchParams.get('category');
+    
+    if (urlSearch !== null) setSearch(urlSearch);
+    if (urlCategory !== null) setCategory(urlCategory);
   }, [searchParams]);
 
   useEffect(() => {

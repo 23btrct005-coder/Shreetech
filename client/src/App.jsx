@@ -10,6 +10,8 @@ import Signup from './pages/Signup';
 import Cart from './pages/Cart';
 import UserDashboard from './pages/UserDashboard';
 import AdminDashboard from './pages/AdminDashboard';
+import OrderSuccess from './pages/OrderSuccess';
+import OrderDetail from './pages/OrderDetail';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 
@@ -30,6 +32,8 @@ function App() {
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/dashboard" element={<UserDashboard />} />
                 <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/order-success/:id" element={<OrderSuccess />} />
+                <Route path="/order/:id" element={<OrderDetail />} />
               </Routes>
             </main>
             <Footer />

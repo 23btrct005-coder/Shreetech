@@ -6,32 +6,32 @@ const industries = [
   {
     name: 'Printing Industry',
     imageUrl: 'https://shreerubbtech.com/img/portfolio/item3.jpg',
-    roles: ['Ink Fountain', 'Ink Oscillator', 'Vibrator', 'Ink Rider', 'Ink Transfer', 'Alcohol Damper']
+    roles: ['Ink Fountain Roller', 'Ink Oscillator Roller', 'Vibrator Roller', 'Ink Rider Roller', 'Ink Transfer Roller', 'Alcohol Damper Roller']
   },
   {
-    name: 'Paper Mill',
-    imageUrl: 'https://shreerubbtech.com/img/portfolio/item2.jpg',
-    roles: ['Back Up', 'Breast Roller', 'Couch Roller', 'M.G. Tuch', 'Drive Roller', 'Guide Roller']
+    name: 'Automobile Industry',
+    imageUrl: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&q=80&w=800',
+    roles: ['Oil Seals', 'O-Rings', 'Bellows', 'Dust Covers', 'Engine Mounts', 'Gaskets']
   },
   {
-    name: 'Steel & Coil Coating',
-    imageUrl: 'https://shreerubbtech.com/img/portfolio/item4.jpg',
-    roles: ['Accumulator', 'Bridle', 'Chemical Coater', 'Deflector', 'Leveler', 'Oiler', 'Wringer']
+    name: 'Infrastructure & Construction',
+    imageUrl: 'https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=800',
+    roles: ['AV Mountings', 'Bridge Bearings', 'Expansion Joints', 'D-Fenders', 'Water Stops', 'Pads']
   },
   {
     name: 'Textile Industry',
     imageUrl: 'https://shreerubbtech.com/img/portfolio/item5.jpg',
-    roles: ['Dip Tank Coater', 'Expander', 'Padder Roller', 'Press Roller', 'Slasher Nip', 'Warper Nip']
+    roles: ['Padder Roller', 'Expander Roller', 'Press Roller', 'Slasher Nip Roller', 'Warper Nip Roller', 'Dip Tank Coater']
   },
   {
-    name: 'Vinyl & Plywood',
-    imageUrl: 'https://shreerubbtech.com/img/portfolio/item.jpg',
-    roles: ['Embossing', 'Coating', 'Glue Spreader', 'Doctor Rollers', 'Sanding', 'Dipping']
+    name: 'Paper Mill',
+    imageUrl: 'https://shreerubbtech.com/img/portfolio/item2.jpg',
+    roles: ['Breast Roller', 'Couch Roller', 'M.G. Tuch Roller', 'Drive Roller', 'Guide Roller', 'Back Up Roller']
   },
   {
-    name: 'Tannery & Glass',
-    imageUrl: 'https://shreerubbtech.com/img/portfolio/item7.jpg',
-    roles: ['Buffing', 'Splitting', 'Washing Machine', 'Feed Roller', 'Idler', 'Nip Rollers']
+    name: 'General Engineering',
+    imageUrl: 'https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?auto=format&fit=crop&q=80&w=800',
+    roles: ['Coupling Elements', 'Diaphragms', 'Silent Block Bushes', 'Rubber Buckets', 'Star Couplers', 'Spider Couplers']
   }
 ];
 
@@ -62,7 +62,7 @@ const IndustryShowcase = () => {
             >
               <div 
                 className="mb-8 rounded-2xl overflow-hidden shadow-lg h-48 cursor-pointer relative shrink-0"
-                onClick={() => navigate(`/catalog?search=${industry.name}`)}
+                onClick={() => navigate(`/catalog?category=${industry.name}`)}
               >
                 <img 
                   src={industry.imageUrl} 
@@ -80,7 +80,7 @@ const IndustryShowcase = () => {
                   return (
                     <li key={role} className="text-sm">
                       <Link 
-                        to={`/catalog?search=${displayName}`}
+                        to={`/catalog?category=${industry.name}&search=${role}`}
                         className="flex items-center gap-2 text-slate-500 hover:text-secondary font-bold transition-colors"
                       >
                         <span className="w-2 h-2 bg-accent rounded-full"></span>
@@ -92,7 +92,7 @@ const IndustryShowcase = () => {
               </ul>
               
               <button 
-                onClick={() => navigate(`/catalog?search=${industry.name}`)}
+                onClick={() => navigate(`/catalog?category=${industry.name}`)}
                 className="mt-8 text-primary font-extrabold text-xs uppercase tracking-widest flex items-center gap-2 hover:gap-3 transition-all"
               >
                 View Full Category →

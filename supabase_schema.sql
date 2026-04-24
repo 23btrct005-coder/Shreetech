@@ -66,3 +66,28 @@ CREATE POLICY "Users can insert their own orders" ON orders FOR INSERT WITH CHEC
 CREATE POLICY "Users can view their own order items" ON order_items FOR SELECT USING (
   EXISTS (SELECT 1 FROM orders WHERE orders.id = order_items.order_id AND orders.user_id = auth.uid())
 );
+
+-- 7. Admin Management Policies
+-- Allow admins to manage products (Insert, Update, Delete)
+CREATE POLICY "Admins can manage products" ON products 
+FOR ALL USING (
+  EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
+);
+
+-- Allow admins to view all orders
+CREATE POLICY "Admins can view all orders" ON orders 
+FOR SELECT USING (
+  EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
+);
+
+-- Allow admins to update order status
+CREATE POLICY "Admins can update orders" ON orders 
+FOR UPDATE USING (
+  EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
+);
+
+-- Allow admins to view all order items
+CREATE POLICY "Admins can view all order items" ON order_items 
+FOR SELECT USING (
+  EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
+);

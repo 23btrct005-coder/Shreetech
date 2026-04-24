@@ -10,52 +10,50 @@ const supabase = createClient(
 const industries = [
   {
     name: 'Printing Industry',
-    products: ['Ink Fountain', 'Ink Oscillator', 'Vibrator', 'Ink Rider', 'Ink Transfer', 'Alcohol Damper']
+    products: ['Ink Fountain Roller', 'Ink Oscillator Roller', 'Vibrator Roller', 'Ink Rider Roller', 'Ink Transfer Roller', 'Alcohol Damper Roller'],
+    imageUrl: 'https://shreerubbtech.com/img/portfolio/item3.jpg'
   },
   {
-    name: 'Paper Mill',
-    products: ['Back Up', 'Breast Roller', 'Couch Roller', 'M.G. Tuch', 'Drive Roller', 'Guide Roller']
+    name: 'Automobile Industry',
+    products: ['Oil Seals', 'O-Rings', 'Bellows', 'Dust Covers', 'Engine Mounts', 'Gaskets'],
+    imageUrl: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&q=80&w=800'
   },
   {
-    name: 'Steel & Coil Coating',
-    products: ['Accumulator', 'Bridle', 'Chemical Coater', 'Deflector', 'Leveler', 'Oiler', 'Wringer']
+    name: 'Infrastructure & Construction',
+    products: ['AV Mountings', 'Bridge Bearings', 'Expansion Joints', 'D-Fenders', 'Water Stops', 'Pads'],
+    imageUrl: 'https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=800'
   },
   {
     name: 'Textile Industry',
-    products: ['Dip Tank Coater', 'Expander', 'Padder Roller', 'Press Roller', 'Slasher Nip', 'Warper Nip']
+    products: ['Padder Roller', 'Expander Roller', 'Press Roller', 'Slasher Nip Roller', 'Warper Nip Roller', 'Dip Tank Coater'],
+    imageUrl: 'https://shreerubbtech.com/img/portfolio/item5.jpg'
   },
   {
-    name: 'Vinyl & Plywood',
-    products: ['Embossing', 'Coating', 'Glue Spreader', 'Doctor Rollers', 'Sanding', 'Dipping']
+    name: 'Paper Mill',
+    products: ['Breast Roller', 'Couch Roller', 'M.G. Tuch Roller', 'Drive Roller', 'Guide Roller', 'Back Up Roller'],
+    imageUrl: 'https://shreerubbtech.com/img/portfolio/item2.jpg'
   },
   {
-    name: 'Tannery & Glass',
-    products: ['Buffing', 'Splitting', 'Washing Machine', 'Feed Roller', 'Idler', 'Nip Rollers']
+    name: 'General Engineering',
+    products: ['Coupling Elements', 'Diaphragms', 'Silent Block Bushes', 'Rubber Buckets', 'Star Couplers', 'Spider Couplers'],
+    imageUrl: 'https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?auto=format&fit=crop&q=80&w=800'
   }
 ];
 
-const industryImages = {
-  'Printing Industry': 'https://shreerubbtech.com/img/portfolio/item3.jpg',
-  'Paper Mill': 'https://shreerubbtech.com/img/portfolio/item2.jpg',
-  'Steel & Coil Coating': 'https://shreerubbtech.com/img/portfolio/item4.jpg',
-  'Textile Industry': 'https://shreerubbtech.com/img/portfolio/item5.jpg',
-  'Vinyl & Plywood': 'https://shreerubbtech.com/img/portfolio/item.jpg',
-  'Tannery & Glass': 'https://shreerubbtech.com/img/portfolio/item7.jpg'
-};
-
 const productData = [];
+
+const materials = ['Nitrile', 'EPDM', 'Neoprene', 'HNBR', 'Viton', 'Hypalon', 'Silicon', 'Polyurethane (PU)'];
 
 industries.forEach(industry => {
   industry.products.forEach(prodName => {
-    // Ensure we don't add " Roller" if the name already has it
-    const fullName = prodName.toLowerCase().includes('roller') ? prodName : `${prodName} Roller`;
+    const selectedMaterial = materials[Math.floor(Math.random() * materials.length)];
     
     productData.push({
-      name: fullName,
-      description: `High-performance ${fullName} specifically engineered for the ${industry.name}. Designed for maximum durability, precision alignment, and resistance to industrial chemicals.`,
-      price: Math.floor(Math.random() * (60000 - 15000) + 15000),
+      name: prodName,
+      description: `Premium ${prodName} manufactured with high-grade ${selectedMaterial} compound. Engineered for the ${industry.name} to withstand extreme industrial conditions, heat, and chemical exposure. Compliant with IS 5382 and ISI 7466 standards.`,
+      price: Math.floor(Math.random() * (60000 - 5000) + 5000),
       category: industry.name,
-      image_url: industryImages[industry.name] || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800',
+      image_url: industry.imageUrl,
       availability: true
     });
   });

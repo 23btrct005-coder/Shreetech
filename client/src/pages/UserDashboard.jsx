@@ -124,9 +124,13 @@ const UserDashboard = () => {
                         <div className="text-right sm:border-l sm:pl-8 flex flex-col justify-end">
                           <p className="text-xs font-bold text-slate-400 uppercase mb-1">Total Amount</p>
                           <p className="text-2xl font-extrabold text-secondary">₹{parseFloat(order.total_amount).toLocaleString()}</p>
-                          <button className="text-secondary font-bold text-sm mt-3 flex items-center justify-end gap-1 group-hover:gap-2 transition-all">
+                          <Link 
+                            to={`/order/${order.id}`}
+                            className="text-secondary font-bold text-sm mt-3 flex items-center justify-end gap-1 group-hover:gap-2 transition-all hover:underline"
+                          >
                             View Details <ChevronRight size={16} />
-                          </button>
+                          </Link>
+
                         </div>
                       </div>
                     </div>

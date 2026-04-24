@@ -27,7 +27,8 @@ const Cart = () => {
 
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:5000/api/orders', {
+      const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+      const response = await axios.post(`${apiBase}/api/orders`, {
         items: cart,
         total_amount: cartTotal,
         address,
@@ -38,9 +39,10 @@ const Cart = () => {
         }
       });
       
+      const newOrderId = response.data.order.id;
       clearCart();
-      alert('Order placed successfully!');
-      navigate('/dashboard');
+      navigate(`/order-success/${newOrderId}`);
+
     } catch (err) {
       console.error('Error placing order:', err);
       alert('Failed to place order. Ensure the backend is running.');
