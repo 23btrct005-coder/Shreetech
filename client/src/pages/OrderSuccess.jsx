@@ -33,8 +33,8 @@ const OrderSuccess = () => {
     <div className="py-20 px-6 md:px-12 bg-slate-50 min-h-screen flex items-center justify-center">
       <div className="max-w-3xl w-full">
         <div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          
+          
           className="bg-white p-12 md:p-16 rounded-[3rem] shadow-2xl border border-slate-100 text-center relative overflow-hidden"
         >
           {/* Decorative background accent */}
@@ -43,9 +43,9 @@ const OrderSuccess = () => {
 
           <div className="relative z-10">
             <div 
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              
+              
+              
               className="w-24 h-24 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-10 shadow-xl shadow-green-500/20"
             >
               <CheckCircle size={48} />

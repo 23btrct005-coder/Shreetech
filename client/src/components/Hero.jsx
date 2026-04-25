@@ -19,9 +19,9 @@ const Hero = () => {
       <div className="container mx-auto px-6 md:px-12 relative z-10">
         <div className="max-w-3xl">
           <div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            
+            
+            
           >
             <span className="text-secondary-light font-bold track-widest uppercase text-sm mb-4 block">
               Established 1996
@@ -67,11 +67,10 @@ const Hero = () => {
 
       {/* Animated Elements */}
       <div 
-        animate={{ 
           y: [0, -20, 0],
           rotate: [0, 5, 0]
         }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        
         className="absolute right-[-10%] top-[20%] w-[40%] aspect-square rounded-full border-[40px] border-secondary/10 hidden lg:block"
       />
     </section>

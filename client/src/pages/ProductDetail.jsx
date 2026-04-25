@@ -104,8 +104,8 @@ const ProductDetail = () => {
           {/* Left: Interactive Image Gallery */}
           <div className="space-y-6">
             <div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
+              
+              
               className="rounded-[3rem] overflow-hidden shadow-2xl border border-slate-50 bg-slate-50 aspect-square group relative"
             >
               <img 
@@ -139,8 +139,8 @@ const ProductDetail = () => {
 
           {/* Right: Product Details & Purchase */}
           <div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            
+            
             className="flex flex-col"
           >
             <div className="flex items-center gap-3 mb-6">
@@ -183,9 +183,9 @@ const ProductDetail = () => {
                   {activeTab === 'overview' ? (
                     <div 
                       key="overview"
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 10 }}
+                      
+                      
+                      
                       className="text-slate-600 space-y-4"
                     >
                       <p>
@@ -203,9 +203,9 @@ const ProductDetail = () => {
                   ) : (
                     <div 
                       key="specs"
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 10 }}
+                      
+                      
+                      
                       className="grid grid-cols-2 gap-4"
                     >
                       {[
@@ -284,10 +284,10 @@ const ProductDetail = () => {
               {relatedProducts.map((rel, idx) => (
                 <div
                   key={rel.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1 }}
+                  
+                  
+                  
+                  
                   className="group"
                 >
                   <Link to={`/product/${rel.id}`}>
