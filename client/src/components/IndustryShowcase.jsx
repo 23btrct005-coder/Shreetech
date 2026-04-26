@@ -53,10 +53,6 @@ const IndustryShowcase = () => {
           {industries.map((industry, index) => (
             <div
               key={industry.name}
-              
-              
-              
-              
               className="p-8 rounded-3xl border border-slate-100 bg-slate-50 hover:bg-white hover:shadow-2xl hover:shadow-primary/5 transition-all group overflow-hidden flex flex-col"
             >
               <div 

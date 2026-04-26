@@ -18,11 +18,7 @@ const Hero = () => {
 
       <div className="container mx-auto px-6 md:px-12 relative z-10">
         <div className="max-w-3xl">
-          <div
-            
-            
-            
-          >
+          <div>
             <span className="text-secondary-light font-bold track-widest uppercase text-sm mb-4 block">
               Established 1996
             </span>
@@ -66,13 +62,7 @@ const Hero = () => {
       </div>
 
       {/* Animated Elements */}
-      <div 
-          y: [0, -20, 0],
-          rotate: [0, 5, 0]
-        }}
-        
-        className="absolute right-[-10%] top-[20%] w-[40%] aspect-square rounded-full border-[40px] border-secondary/10 hidden lg:block"
-      />
+      <div className="absolute right-[-10%] top-[20%] w-[40%] aspect-square rounded-full border-[40px] border-secondary/10 hidden lg:block" />
     </section>
   );
 };
